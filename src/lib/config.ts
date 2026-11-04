@@ -11,7 +11,7 @@ export const studio = {
   logoUrl: null as string | null,
   tagline: 'Personlig kunst. Permanent uttrykk.',
   address: { street: 'Grünerløkka 12', postalCode: '0552', city: 'Oslo' },
-  email: 'hei@nr5studios.no',
+  email: 'contact@nr5studios.no',
   phone: '+47 400 00 000',
   /** `days` are keys into the `hours` section of the dictionaries; `null` hours means closed. */
   openingHours: [

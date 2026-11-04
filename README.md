@@ -73,7 +73,7 @@ the caller is an admin. Deploy it once:
 
 ### Emails and calendar invitations (`send-notifications`)
 
-**Status:** built and unit-tested. Not verified end-to-end until a Resend API key is set (see below).
+**Status:** live. Sending domain `booking.nr5studios.no` is verified in Resend; first emails sent 2026-11-04 (in test mode).
 
 How it works: every booking change queues rows in `notifications` *in the same transaction* (customer + artist).
 The `send-notifications` Edge Function claims due rows, builds the email (NO/EN for customers, NO for artists) with
@@ -99,7 +99,7 @@ Setup:
 
 **Test mode:** without your own domain, Resend only delivers to the address you signed up with.
 `EMAIL_TEST_RECIPIENT` sends *every* email there, with the real recipient in the subject (`[TEST → kunde@…]`).
-When the domain is ready: verify it in Resend, set `EMAIL_FROM` (e.g. `Nr5 Studios <booking@send.yourdomain.no>`)
+When the domain is ready: verify it in Resend, set `EMAIL_FROM` (e.g. `Nr5 Studios <bekreftelse@booking.nr5studios.no>`)
 and delete `EMAIL_TEST_RECIPIENT`.
 
 ### Test users
@@ -136,7 +136,9 @@ With `VITE_DATA_SOURCE=demo` (or without Supabase credentials) the booking flow 
 
 ## Before launch (open tasks)
 
-- [ ] **Email domain** – buy a domain, add a sending subdomain (e.g. `send.<domain>`) in Resend, add its DNS records and verify. Then set `EMAIL_FROM`, remove `EMAIL_TEST_RECIPIENT` and set `SITE_URL` to the live address. Until then emails only work in Resend test mode (delivered to the Resend account owner only).
+- [ ] **Email domain** – (domain `nr5studios.no` bought) add the sending subdomain `booking.nr5studios.no` in Resend (DNS for nr5studios.no is at domene.no), add its DNS records and verify. Then set `EMAIL_FROM`, remove `EMAIL_TEST_RECIPIENT` and set `SITE_URL` to the live address. Until then emails only work in Resend test mode (delivered to the Resend account owner only).
+- [ ] **Create the mailbox `contact@nr5studios.no`** (domene.no → kontrollpanel → E-postkontoer). It is the studio address on the site and the reply-to of every booking email; until it exists, replies bounce.
+- [ ] Remove `EMAIL_TEST_RECIPIENT` from the Edge Function secrets once the test emails look right
 - [ ] Delete or change the seeded test users and their passwords
 - [ ] Remove setup-verification bookings: `delete from public.bookings where customer_email like 'verifisering%@example.com';`
 - [ ] Clean up orphaned uploads in `reference-images/uploads` (files from abandoned bookings) – e.g. a scheduled job

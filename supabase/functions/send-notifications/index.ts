@@ -8,7 +8,7 @@
 //
 // Secrets (Supabase → Edge Functions → Secrets):
 //   RESEND_API_KEY        required
-//   EMAIL_FROM            e.g. "Nr5 Studios <booking@send.nr5studios.no>" (default: Resend test sender)
+//   EMAIL_FROM            e.g. "Nr5 Studios <bekreftelse@booking.nr5studios.no>" (default: Resend test sender)
 //   EMAIL_TEST_RECIPIENT  optional: deliver *every* email here instead (Resend test mode)
 //   SITE_URL              e.g. https://nr5studios.no (links in emails)
 import { createClient } from 'npm:@supabase/supabase-js@2.118.0'
@@ -18,7 +18,7 @@ import { createClient } from 'npm:@supabase/supabase-js@2.118.0'
 export const STUDIO = {
   name: 'Nr5 Studios',
   address: 'Grünerløkka 12, 0552 Oslo',
-  email: 'hei@nr5studios.no',
+  email: 'contact@nr5studios.no',
   phone: '+47 400 00 000',
   timeZone: 'Europe/Oslo',
 }
