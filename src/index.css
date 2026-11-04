@@ -1,0 +1,98 @@
+@import 'tailwindcss';
+
+/* Design tokens — single source of truth for colours, type and radii. */
+@theme {
+  --color-olive: #66734a;
+  --color-olive-dark: #525d3b;
+  --color-olive-light: #e9ebdd;
+  --color-ink: #171717;
+  --color-paper: #ffffff;
+  --color-cream: #f7f7f2;
+  /* #777777 fails WCAG AA on white (4.48:1); this slightly darker grey passes (5.0:1). */
+  --color-muted: #6e6e6e;
+  --color-line: #e3e3dc;
+  --color-danger: #a63d32;
+  --color-danger-light: #f8e9e7;
+  --color-warning: #8a6116;
+  --color-warning-light: #fbf3e2;
+  --color-success: #4d6b3a;
+
+  --font-display: 'Fraunces', ui-serif, Georgia, serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 1rem;
+  --shadow-card: 0 1px 2px rgb(23 23 23 / 0.04), 0 8px 24px rgb(23 23 23 / 0.06);
+
+  --animate-fade-in: fade-in 0.35s ease-out both;
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: none; }
+  }
+}
+
+@layer base {
+  html {
+    /* 15px base: everything sized in rem (text, spacing, buttons) scales down evenly. */
+    font-size: 93.75%;
+    @apply bg-cream text-ink font-sans antialiased;
+    scroll-behavior: smooth;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tight;
+    font-variation-settings: 'opsz' 96;
+  }
+  /* Keep anchor targets clear of the sticky header. */
+  section[id] {
+    scroll-margin-top: 4rem;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-olive;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+}
+
+/* React DayPicker theme */
+.rdp-root.nr5-calendar {
+  --rdp-accent-color: var(--color-olive);
+  --rdp-accent-background-color: var(--color-olive-light);
+  --rdp-day-height: 2.75rem;
+  --rdp-day-width: 2.75rem;
+  --rdp-day_button-height: 2.5rem;
+  --rdp-day_button-width: 2.5rem;
+  --rdp-day_button-border-radius: 9999px;
+  --rdp-selected-border: 2px solid var(--color-olive);
+  --rdp-today-color: var(--color-ink);
+  --rdp-disabled-opacity: 0.3;
+  font-family: var(--font-sans);
+  margin: 0 auto;
+}
+.nr5-calendar .rdp-caption_label {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.25rem;
+  text-transform: capitalize;
+}
+.nr5-calendar .rdp-available:not(.rdp-selected) .rdp-day_button {
+  background: var(--color-olive-light);
+  color: var(--color-olive-dark);
+  font-weight: 600;
+}
+.nr5-calendar .rdp-selected .rdp-day_button {
+  background: var(--color-olive);
+  color: var(--color-paper);
+}
+.nr5-calendar .rdp-today:not(.rdp-selected) .rdp-day_button {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+@media (max-width: 380px) {
+  .rdp-root.nr5-calendar {
+    --rdp-day-height: 2.5rem;
+    --rdp-day-width: 2.5rem;
+    --rdp-day_button-height: 2.25rem;
+    --rdp-day_button-width: 2.25rem;
+  }
+}
