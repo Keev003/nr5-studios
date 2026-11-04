@@ -1,6 +1,7 @@
 import { lazy, Suspense, type ReactNode } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { PublicLayout } from '@/components/layout/PublicLayout'
+import { RouteError } from '@/components/layout/RouteError'
 import { Spinner } from '@/components/ui'
 import HomePage from '@/pages/HomePage'
 import NotFoundPage from '@/pages/NotFoundPage'
@@ -27,6 +28,7 @@ const withSuspense = (node: ReactNode) => <Suspense fallback={<Spinner />}>{node
 const router = createBrowserRouter([
   {
     element: <PublicLayout />,
+    errorElement: <RouteError />,
     children: [
       { path: '/', element: <HomePage /> },
       { path: '/booking', element: withSuspense(<BookingPage />) },
@@ -43,6 +45,7 @@ const router = createBrowserRouter([
   {
     path: '/dashboard',
     element: withSuspense(<AuthOutlet />),
+    errorElement: <RouteError />,
     children: [
       {
         element: withSuspense(<ProtectedDashboard />),

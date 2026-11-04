@@ -28,7 +28,7 @@ export function Section({ id, eyebrow, title, intro, tone = 'cream', className, 
         {(eyebrow || title || intro) && (
           <header className="mb-10 max-w-2xl sm:mb-12">
             {eyebrow && (
-              <p className={cn('mb-3 text-xs font-semibold uppercase tracking-[0.2em]', tone === 'ink' ? 'text-olive-light' : 'text-olive')}>
+              <p className={cn('mb-3 text-xs font-semibold uppercase tracking-[0.2em]', tone === 'ink' ? 'text-olive-light' : tone === 'olive' ? 'text-olive-dark' : 'text-olive')}>
                 {eyebrow}
               </p>
             )}
@@ -37,7 +37,7 @@ export function Section({ id, eyebrow, title, intro, tone = 'cream', className, 
                 {title}
               </h2>
             )}
-            {intro && <div className={cn('mt-4 text-base leading-relaxed', tone === 'ink' ? 'text-paper/70' : 'text-muted')}>{intro}</div>}
+            {intro && <div className={cn('mt-4 text-base leading-relaxed', tone === 'ink' ? 'text-paper/70' : tone === 'olive' ? 'text-ink/80' : 'text-muted')}>{intro}</div>}
           </header>
         )}
         {children}

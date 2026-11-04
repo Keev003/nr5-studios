@@ -9,7 +9,6 @@ export function LanguageToggle({ inverted = false, className }: { inverted?: boo
     <button
       type="button"
       onClick={toggle}
-      aria-label={t.meta.switchTo}
       title={t.meta.switchTo}
       className={cn(
         'inline-flex h-11 items-center gap-1.5 rounded-full px-3 text-sm font-semibold transition-colors',
@@ -19,6 +18,7 @@ export function LanguageToggle({ inverted = false, className }: { inverted?: boo
     >
       <Languages className="size-4" aria-hidden />
       <span lang={t.meta.switchLabel === 'EN' ? 'en' : 'nb'}>{t.meta.switchLabel}</span>
+      <span className="sr-only"> – {t.meta.switchTo}</span>
     </button>
   )
 }

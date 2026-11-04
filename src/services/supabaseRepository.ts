@@ -1,3 +1,4 @@
+import { bookingDefaults } from '@/lib/config'
 import { getSupabase } from '@/lib/supabase'
 import type { Artist, ArtistSchedule, BookingConfirmation, Service, StudioSettings } from '@/types/booking'
 import type { BookingRepository } from './bookingRepository'
@@ -31,8 +32,9 @@ interface ServiceRow {
 interface SettingsRow {
   minimum_age: number
   minor_policy: StudioSettings['minorPolicy']
-  cancellation_fee_nok: number
   cancellation_deadline_hours: number
+  late_cancellation_hours: number | null
+  late_cancellation_percent: number | null
   policy_version: string
   slot_interval_minutes: number
   min_notice_hours: number
@@ -112,8 +114,10 @@ export const supabaseRepository: BookingRepository = {
     return {
       minimumAge: data.minimum_age,
       minorPolicy: data.minor_policy,
-      cancellationFeeNok: data.cancellation_fee_nok,
-      cancellationDeadlineHours: data.cancellation_deadline_hours,
+      // Fallbacks keep the studio's terms correct even before migration 008 has run.
+      cancellationDeadlineHours: data.late_cancellation_hours == null ? bookingDefaults.cancellationDeadlineHours : data.cancellation_deadline_hours,
+      lateCancellationHours: data.late_cancellation_hours ?? bookingDefaults.lateCancellationHours,
+      lateCancellationPercent: data.late_cancellation_percent ?? bookingDefaults.lateCancellationPercent,
       policyVersion: data.policy_version,
       slotIntervalMinutes: data.slot_interval_minutes,
       minNoticeHours: data.min_notice_hours,

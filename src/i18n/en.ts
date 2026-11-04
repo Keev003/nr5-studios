@@ -156,9 +156,8 @@ export const en: Dictionary = {
     noReference: 'No reference image',
     edit: 'Edit',
     priceNotice: 'The price is an estimate. The final price is agreed with the artist. Nothing is paid online.',
-    policyCheckbox: (hours, fee) =>
-      `I confirm that I have read and accept the cancellation terms. If I do not show up or cancel less than ${hours} hours before the appointment, I may be invoiced a fee of NOK ${fee}.`,
-    readTerms: 'Read the booking terms',
+    policyCheckbox: 'I have read and understood the cancellation terms.',
+    readTerms: 'See all booking terms',
     policyRequired: 'You must accept the cancellation terms to send the booking.',
     honeypot: 'Website',
     confirm: 'Confirm booking',
@@ -223,7 +222,25 @@ export const en: Dictionary = {
     icsTitle: (service, artist, studio) => `${service} with ${artist} – ${studio}`,
     icsDescription: (ref, artist, contact) => `Booking reference: ${ref}\nArtist: ${artist}\nQuestions? ${contact}`,
   },
+  cancellation: {
+    title: 'Cancellation terms',
+    rules: (freeHours, lateHours, percent) => [
+      `Cancellations must be made at least ${freeHours} hours before the appointment.`,
+      `If you cancel less than ${freeHours} hours but at least ${lateHours} hours before the appointment, ${percent}% of the agreed amount will be invoiced.`,
+      `If you cancel less than ${lateHours} hours before the appointment, including same-day cancellations and drop-in appointments, 100% of the agreed amount will be invoiced.`,
+      'If you do not show up without notice, 100% of the agreed amount will be invoiced.',
+    ],
+    closing:
+      'Thank you for understanding! I appreciate you respecting the cancellation terms, and I look forward to meeting you and creating your tattoo!',
+    howTo: (email, phone) => `To cancel, contact us at ${email} or ${phone}.`,
+    invoiceNote: 'The fee is never charged automatically. Any invoice is sent separately.',
+  },
   notFound: { title: 'Page not found', text: 'The link may be wrong, or the page has moved.' },
+  errorPage: {
+    title: 'Something went wrong',
+    text: 'The page could not be displayed. Try reloading. If the problem persists, please contact the studio.',
+    reload: 'Reload',
+  },
   login: {
     title: 'Artist sign-in',
     intro: 'For the studio’s artists and administrators only.',
@@ -235,12 +252,6 @@ export const en: Dictionary = {
     signedInAs: (email) => `You are signed in as ${email}.`,
     signOut: 'Sign out',
     toDashboard: 'Go to dashboard',
-  },
-  placeholders: {
-    dashboardTitle: 'Dashboard',
-    dashboardText: 'The artist dashboard is built in phase 5.',
-    privacyTitle: 'Privacy',
-    privacyText: 'Privacy policy coming here (placeholder).',
   },
   units: { hours: 'h', minutes: 'min', free: 'Free' },
 }

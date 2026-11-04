@@ -57,7 +57,7 @@ describe('notification outbox', () => {
     while (date.getUTCDay() !== 1) date = new Date(date.getTime() + 86_400_000)
     const startsAt = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 11, 0)) // 12:00 or 13:00 Oslo
     await db.query(
-      `select public.create_booking($1,$2,$3,'Test Testesen','t@example.com','+47 400 00 000','1990-01-01','Arm','En testbeskrivelse her',null,true,'2026-11-01',null,'en')`,
+      `select public.create_booking($1,$2,$3,'Test Testesen','t@example.com','+47 400 00 000','1990-01-01','Arm','En testbeskrivelse her',null,true,'2026-11-04',null,'en')`,
       [ARTISTS.shmoky, SERVICES.small, startsAt.toISOString()],
     )
     expect((await db.query(`select language from bookings`)).rows).toEqual([{ language: 'en' }])

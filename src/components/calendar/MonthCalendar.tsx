@@ -41,7 +41,7 @@ export function MonthCalendar({ month, onMonthChange, selected, onSelect, render
   return (
     <div>
       <div className="mb-3 flex items-center justify-between">
-        <h3 className="font-display text-xl capitalize">{MONTHS[m - 1]} {y}</h3>
+        <h2 className="font-display text-xl capitalize">{MONTHS[m - 1]} {y}</h2>
         <div className="flex gap-1">
           <button type="button" onClick={() => shift(-1)} aria-label="Forrige måned" className="flex size-10 items-center justify-center rounded-full hover:bg-ink/5">
             <ChevronLeft className="size-5" aria-hidden />
@@ -59,23 +59,26 @@ export function MonthCalendar({ month, onMonthChange, selected, onSelect, render
         {weeks.map((date) => {
           const inMonth = date.slice(0, 7) === first.slice(0, 7)
           const day = Number(date.slice(8))
-          const label = `${day}. ${MONTHS[Number(date.slice(5, 7)) - 1]}${dayLabel?.(date) ? `, ${dayLabel(date)}` : ''}`
           return (
             <button
               key={date}
               type="button"
               onClick={() => onSelect?.(date)}
-              aria-label={label}
               aria-pressed={selected === date}
               className={cn(
                 'flex min-h-14 flex-col items-stretch rounded-lg border p-1 text-left transition-colors sm:min-h-20 sm:p-1.5',
-                inMonth ? 'border-line' : 'border-transparent opacity-40',
+                inMonth ? 'border-line' : 'border-transparent text-muted',
                 selected === date ? 'ring-2 ring-olive' : 'hover:border-olive/50',
                 dayClassName?.(date) ?? 'bg-paper',
               )}
             >
               <span className={cn('text-xs font-semibold tabular-nums sm:text-sm', date === today && 'flex size-6 items-center justify-center rounded-full bg-ink text-paper')}>
                 {day}
+              </span>
+              {/* Visible day number + hidden month/summary, so the button's name starts with what is shown. */}
+              <span className="sr-only">
+                . {MONTHS[Number(date.slice(5, 7)) - 1]}
+                {dayLabel?.(date) ? `, ${dayLabel(date)}` : ''}
               </span>
               <span className="mt-0.5 min-w-0 flex-1">{renderDay?.(date)}</span>
             </button>

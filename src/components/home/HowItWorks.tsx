@@ -13,7 +13,8 @@ export function HowItWorks() {
           const Icon = icons[i] ?? UserRound
           return (
             <li key={title} className="relative rounded-card bg-paper p-6 shadow-card">
-              <span aria-hidden className="font-display text-5xl font-light text-olive/20">0{i + 1}</span>
+              {/* Decorative step number drawn with CSS so it is not read out or treated as body text. */}
+              <span aria-hidden data-step={`0${i + 1}`} className="block font-display text-5xl font-light leading-none text-olive/20 before:content-[attr(data-step)]" />
               <Icon className="mt-2 size-7 text-olive" aria-hidden />
               <h3 className="mt-4 font-sans text-lg font-semibold">{title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted">{text}</p>

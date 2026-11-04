@@ -26,7 +26,10 @@ export function StudioSettingsForm() {
   const set = <K extends keyof StudioSettings>(k: K, v: StudioSettings[K]) => setSettings({ ...settings, [k]: v })
   const num = (k: keyof StudioSettings) => (e: { target: { value: string } }) => set(k, Math.max(0, Math.round(Number(e.target.value))) as never)
   const termsChanged =
-    settings.cancellationFeeNok !== original.cancellationFeeNok || settings.cancellationDeadlineHours !== original.cancellationDeadlineHours
+    settings.cancellationDeadlineHours !== original.cancellationDeadlineHours ||
+    settings.lateCancellationHours !== original.lateCancellationHours ||
+    settings.lateCancellationPercent !== original.lateCancellationPercent
+  const windowsInvalid = settings.lateCancellationHours > settings.cancellationDeadlineHours || settings.lateCancellationPercent > 100
   const dirty = JSON.stringify(settings) !== JSON.stringify(original)
 
   const save = async (e: FormEvent) => {
@@ -50,8 +53,15 @@ export function StudioSettingsForm() {
       <form onSubmit={save} className="mt-6 space-y-8">
         <fieldset className="grid gap-4 sm:grid-cols-2">
           <legend className="mb-3 text-sm font-semibold uppercase tracking-[0.15em] text-muted">Avbestilling</legend>
-          <InputField label="Gebyr ved sen avbestilling / ikke møtt (kr)" type="number" min={0} step={50} value={settings.cancellationFeeNok} onChange={num('cancellationFeeNok')} />
-          <InputField label="Frist for gratis avbestilling (timer før)" type="number" min={0} value={settings.cancellationDeadlineHours} onChange={num('cancellationDeadlineHours')} />
+          <InputField label="Gratis avbestilling frem til (timer før)" type="number" min={0} value={settings.cancellationDeadlineHours} onChange={num('cancellationDeadlineHours')} />
+          <InputField label="Fullt beløp (100 %) under (timer før)" type="number" min={0} value={settings.lateCancellationHours} onChange={num('lateCancellationHours')} hint="Gjelder også samme dag, drop-in og manglende oppmøte" />
+          <InputField label="Andel av beløpet mellom fristene (%)" type="number" min={0} max={100} step={5} value={settings.lateCancellationPercent} onChange={num('lateCancellationPercent')} />
+          <p className="self-end pb-3 text-sm text-muted">
+            Kunden ser: gratis frem til {settings.cancellationDeadlineHours} t før, {settings.lateCancellationPercent} % mellom {settings.cancellationDeadlineHours} og {settings.lateCancellationHours} t, 100 % under {settings.lateCancellationHours} t.
+          </p>
+          {windowsInvalid && (
+            <Alert tone="error" className="sm:col-span-2">Fristen for fullt beløp må være kortere enn fristen for gratis avbestilling, og andelen maks 100 %.</Alert>
+          )}
           <InputField label="Versjon av vilkårene" value={settings.policyVersion} onChange={(e) => set('policyVersion', e.target.value)} hint="Lagres med hver booking som bevis på hva kunden godtok" className="sm:col-span-2" />
           {termsChanged && settings.policyVersion === original.policyVersion && (
             <Alert tone="warning" className="sm:col-span-2">
@@ -81,7 +91,7 @@ export function StudioSettingsForm() {
 
         <div className="flex justify-end gap-3">
           <Button variant="ghost" disabled={!dirty || saving} onClick={() => setSettings(original)}>Angre</Button>
-          <Button type="submit" loading={saving} disabled={!dirty}>Lagre bookingregler</Button>
+          <Button type="submit" loading={saving} disabled={!dirty || windowsInvalid}>Lagre bookingregler</Button>
         </div>
       </form>
     </Card>

@@ -44,7 +44,7 @@ async function book(db: TestDb, a: BookingArgs = {}) {
       a.description ?? 'En liten botanisk linjetegning.',
       a.image ?? null,
       a.accepted ?? true,
-      a.version ?? '2026-11-01',
+      a.version ?? '2026-11-04',
       a.website ?? null,
     ],
   )

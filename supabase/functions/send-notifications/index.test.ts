@@ -23,7 +23,7 @@ const booking: import('./index.ts').BookingDetails = {
   artistName: 'Shmoky',
   artistEmail: 'shmoky@nr5studios.test',
 }
-const settings = { cancellationFeeNok: 500, cancellationDeadlineHours: 24, guardianConsentFormUrl: '/samtykke.pdf' }
+const settings = { cancellationDeadlineHours: 48, lateCancellationHours: 24, lateCancellationPercent: 50, guardianConsentFormUrl: '/samtykke.pdf' }
 const opts = { siteUrl: 'https://nr5.example', fromAddress: 'booking@nr5.example', now: new Date('2026-11-02T12:00:00Z') }
 const note = (kind: import('./index.ts').Kind, recipient: import('./index.ts').Recipient, extra = {}) =>
   ({ id: 'n1', booking_id: 'b1', kind, recipient, previous_status: null, calendar_sequence: 0, attempts: 1, ...extra })
@@ -33,7 +33,8 @@ Deno.test('confirmed booking: customer gets Norwegian confirmation with calendar
   assertEquals(email.to, 'kari@example.com')
   assertMatch(email.subject, /^Bekreftet: Small Piece hos Shmoky/)
   assertStringIncludes(email.text, '10:00–12:00')
-  assertStringIncludes(email.text, '500 kr')
+  assertStringIncludes(email.text, 'gratis frem til 48 timer før')
+  assertStringIncludes(email.text, '50 % av avtalt beløp')
   assertEquals(email.ics?.method, 'REQUEST')
   assertStringIncludes(email.ics!.content, 'METHOD:REQUEST')
   assertStringIncludes(email.ics!.content, 'DTSTART:20261109T090000Z')

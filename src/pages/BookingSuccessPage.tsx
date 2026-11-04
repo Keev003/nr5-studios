@@ -8,6 +8,7 @@ import { buildIcs } from '@/lib/ics'
 import { formatStudioDateLong, formatStudioTime } from '@/lib/time'
 import { loadConfirmation } from '@/services/confirmationStore'
 import type { BookingConfirmation } from '@/types/booking'
+import { usePageTitle } from '@/hooks/usePageTitle'
 
 const studioAddress = `${studio.address.street}, ${studio.address.postalCode} ${studio.address.city}`
 
@@ -30,6 +31,7 @@ function downloadIcs(c: BookingConfirmation, t: Dictionary) {
 export default function BookingSuccessPage() {
   const { t, lang } = useI18n()
   const { reference = '' } = useParams()
+  usePageTitle(t.success.reference.replace(':', '') + ' ' + reference)
   const confirmation = loadConfirmation(reference)
   const pending = confirmation?.status === 'pending'
 

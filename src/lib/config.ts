@@ -28,9 +28,10 @@ export const studio = {
 } as const
 
 export const bookingDefaults = {
-  cancellationFeeNok: 500,
-  cancellationDeadlineHours: 24,
-  policyVersion: '2026-11-01',
+  cancellationDeadlineHours: 48,
+  lateCancellationHours: 24,
+  lateCancellationPercent: 50,
+  policyVersion: '2026-11-04',
   minimumAge: 18,
   /** Placeholder until the studio supplies its real consent form. */
   guardianConsentFormUrl: '/samtykkeskjema-placeholder.pdf',

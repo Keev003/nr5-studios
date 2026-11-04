@@ -3,6 +3,7 @@ import { useI18n } from '@/i18n/useI18n'
 import { formatServiceDuration } from '@/lib/services'
 import { formatPrice, formatStudioDateLong, formatStudioTime } from '@/lib/time'
 import type { Artist, Service } from '@/types/booking'
+import { cn } from '@/utils/cn'
 
 interface BookingSummaryProps {
   artist: Artist | null
@@ -29,12 +30,12 @@ export function BookingSummary({ artist, service, startsAt }: BookingSummaryProp
       <h2 className="font-display text-xl">{t.booking.summaryTitle}</h2>
       <dl className="mt-4 space-y-3 text-sm">
         {rows.map(({ icon: Icon, label, value }) => (
-          <div key={label} className="flex gap-3">
-            <Icon className="mt-0.5 size-4 shrink-0 text-olive" aria-hidden />
-            <div>
-              <dt className="text-xs text-muted">{label}</dt>
-              <dd className={value ? 'font-medium first-letter:uppercase' : 'text-muted'}>{value ?? '–'}</dd>
-            </div>
+          <div key={label}>
+            <dt className="flex items-center gap-3 text-xs text-muted">
+              <Icon className="size-4 shrink-0 text-olive" aria-hidden />
+              {label}
+            </dt>
+            <dd className={cn('pl-7', value ? 'font-medium first-letter:uppercase' : 'text-muted')}>{value ?? '–'}</dd>
           </div>
         ))}
       </dl>

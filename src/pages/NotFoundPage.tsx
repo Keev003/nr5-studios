@@ -1,8 +1,10 @@
 import { ButtonLink, Container } from '@/components/ui'
 import { useI18n } from '@/i18n/useI18n'
+import { usePageTitle } from '@/hooks/usePageTitle'
 
 export default function NotFoundPage() {
   const { t } = useI18n()
+  usePageTitle(t.notFound.title)
   return (
     <Container className="py-32 text-center">
       <p className="text-sm font-semibold uppercase tracking-[0.2em] text-olive">404</p>

@@ -103,7 +103,13 @@ describe('Step 5 – cancellation policy', () => {
       />,
     )
 
-    const checkbox = screen.getByRole('checkbox', { name: /avbestillingsvilkårene/ })
+    // The studio's full cancellation terms are shown right above the checkbox.
+    expect(screen.getByRole('heading', { name: 'Vilkår for avbestilling' })).toBeInTheDocument()
+    expect(screen.getByText(/senest 48 timer før/)).toBeInTheDocument()
+    expect(screen.getByText(/faktureres 50 % av det avtalte beløpet/)).toBeInTheDocument()
+    expect(screen.getByText(/manglende oppmøte uten forhåndsvarsel faktureres 100 %/)).toBeInTheDocument()
+
+    const checkbox = screen.getByRole('checkbox', { name: /lest og forstått avbestillingsvilkårene/ })
     expect(checkbox).not.toBeChecked()
 
     await userEvent.click(screen.getByRole('button', { name: /bekreft booking/i }))

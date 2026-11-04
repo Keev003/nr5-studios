@@ -75,8 +75,9 @@ export const demoServices: Service[] = [
 export const demoSettings: StudioSettings = {
   minimumAge: bookingDefaults.minimumAge,
   minorPolicy: 'pending_with_guardian_consent',
-  cancellationFeeNok: bookingDefaults.cancellationFeeNok,
   cancellationDeadlineHours: bookingDefaults.cancellationDeadlineHours,
+  lateCancellationHours: bookingDefaults.lateCancellationHours,
+  lateCancellationPercent: bookingDefaults.lateCancellationPercent,
   policyVersion: bookingDefaults.policyVersion,
   slotIntervalMinutes: 30,
   minNoticeHours: 12,

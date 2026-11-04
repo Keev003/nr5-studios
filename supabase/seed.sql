@@ -11,7 +11,8 @@
 update public.profiles set role = 'admin' where email = 'shmoky@nr5studios.test';
 
 -- Studio settings (placeholder business rules – editable later)
-insert into public.studio_settings (id, policy_version) values (true, '2026-11-01')
+insert into public.studio_settings (id, policy_version, cancellation_deadline_hours, late_cancellation_hours, late_cancellation_percent)
+values (true, '2026-11-04', 48, 24, 50)
 on conflict (id) do nothing;
 
 -- Services. Names/descriptions in English by design; prices are placeholders.

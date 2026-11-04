@@ -11,6 +11,7 @@ import { bookingRepository } from '@/services/bookingRepository'
 import { BookingRejectedError, SlotUnavailableError } from '@/services/errors'
 import type { Artist, BookingConfirmation, CustomerInfo, Service, StudioSettings } from '@/types/booking'
 import { AgeNotice } from './AgeNotice'
+import { CancellationPolicy } from './CancellationPolicy'
 import { BookingNav } from './BookingNav'
 import { StepHeading } from './StepHeading'
 
@@ -117,22 +118,22 @@ export function ReviewStep({ artist, service, settings, onEdit, onBack, onBooked
         )}
       </div>
 
-      <div className="mt-6 rounded-card border border-line bg-paper p-5">
+      <div className="mt-6 rounded-card border border-line bg-paper p-5 text-sm leading-relaxed text-muted">
+        <CancellationPolicy settings={settings} headingLevel="h3" />
+        <p className="mt-2">
+          <Link to="/vilkar" target="_blank" className="font-medium text-olive underline underline-offset-4">
+            {t.booking.readTerms}
+          </Link>
+        </p>
         <Checkbox
+          className="mt-5 border-t border-line pt-5"
           checked={accepted}
           onChange={(e) => {
             setAccepted(e.target.checked)
             if (e.target.checked) setShowConsentError(false)
           }}
           error={showConsentError ? t.booking.policyRequired : undefined}
-          label={
-            <>
-              {t.booking.policyCheckbox(settings.cancellationDeadlineHours, settings.cancellationFeeNok)}{' '}
-              <Link to="/vilkar" target="_blank" className="font-medium text-olive underline underline-offset-4">
-                {t.booking.readTerms}
-              </Link>
-            </>
-          }
+          label={<span className="font-medium">{t.booking.policyCheckbox}</span>}
         />
       </div>
 

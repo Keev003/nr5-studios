@@ -67,8 +67,11 @@ export type MinorPolicy = 'reject' | 'pending_with_guardian_consent'
 export interface StudioSettings {
   minimumAge: number
   minorPolicy: MinorPolicy
-  cancellationFeeNok: number
+  /** Free cancellation until this many hours before the appointment. */
   cancellationDeadlineHours: number
+  /** Within this many hours: 100 %. Between this and the deadline: `lateCancellationPercent`. */
+  lateCancellationHours: number
+  lateCancellationPercent: number
   policyVersion: string
   slotIntervalMinutes: number
   minNoticeHours: number

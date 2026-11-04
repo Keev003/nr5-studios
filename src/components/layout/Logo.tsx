@@ -10,9 +10,9 @@ import { cn } from '@/utils/cn'
 export function Logo({ className, inverted = false }: { className?: string; inverted?: boolean }) {
   const { t } = useI18n()
   return (
-    <Link to="/" className={cn('group inline-flex items-center gap-2.5', className)} aria-label={`${studio.name} – ${t.common.toFrontPage}`}>
+    <Link to="/" className={cn('group inline-flex items-center gap-2.5', className)}>
       {studio.logoUrl ? (
-        <img src={studio.logoUrl} alt="" className={cn('h-9 w-auto', inverted && 'brightness-0 invert')} />
+        <img src={studio.logoUrl} alt={studio.name} className={cn('h-9 w-auto', inverted && 'brightness-0 invert')} />
       ) : (
         <>
           <span
@@ -29,6 +29,7 @@ export function Logo({ className, inverted = false }: { className?: string; inve
           </span>
         </>
       )}
+      <span className="sr-only"> – {t.common.toFrontPage}</span>
     </Link>
   )
 }

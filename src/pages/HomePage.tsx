@@ -4,8 +4,10 @@ import { Contact } from '@/components/home/Contact'
 import { Gallery } from '@/components/home/Gallery'
 import { Hero } from '@/components/home/Hero'
 import { HowItWorks } from '@/components/home/HowItWorks'
+import { usePageTitle } from '@/hooks/usePageTitle'
 
 export default function HomePage() {
+  usePageTitle()
   return (
     <>
       <Hero />

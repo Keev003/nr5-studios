@@ -154,9 +154,8 @@ export const nb = {
     noReference: 'Ingen referansebilde',
     edit: 'Endre',
     priceNotice: 'Prisen er et estimat. Endelig pris avtales med artisten. Det betales ikke noe på nett.',
-    policyCheckbox: (hours: number, fee: number) =>
-      `Jeg bekrefter at jeg har lest og akseptert avbestillingsvilkårene. Ved manglende oppmøte eller avbestilling mindre enn ${hours} timer før avtalt tid kan jeg bli fakturert et gebyr på ${fee} kr.`,
-    readTerms: 'Les bookingvilkårene',
+    policyCheckbox: 'Jeg har lest og forstått avbestillingsvilkårene.',
+    readTerms: 'Se alle bookingvilkår',
     policyRequired: 'Du må bekrefte avbestillingsvilkårene for å sende bookingen.',
     honeypot: 'Nettside',
     confirm: 'Bekreft booking',
@@ -222,7 +221,25 @@ export const nb = {
     icsTitle: (service: string, artist: string, studio: string) => `${service} hos ${artist} – ${studio}`,
     icsDescription: (ref: string, artist: string, contact: string) => `Bookingreferanse: ${ref}\nArtist: ${artist}\nSpørsmål? ${contact}`,
   },
+  cancellation: {
+    title: 'Vilkår for avbestilling',
+    rules: (freeHours: number, lateHours: number, percent: number) => [
+      `Avbestilling må skje senest ${freeHours} timer før avtalt time.`,
+      `Ved avbestilling mindre enn ${freeHours} timer før avtalt time, men senest ${lateHours} timer før, faktureres ${percent} % av det avtalte beløpet.`,
+      `Ved avbestilling mindre enn ${lateHours} timer før avtalt time, inkludert avbestilling samme dag og på drop-in-timer, faktureres 100 % av det avtalte beløpet.`,
+      'Ved manglende oppmøte uten forhåndsvarsel faktureres 100 % av det avtalte beløpet.',
+    ],
+    closing:
+      'Takk for forståelsen! Jeg setter pris på at du respekterer avbestillingsvilkårene, og jeg ser frem til å møte deg og gjennomføre tatoveringen!',
+    howTo: (email: string, phone: string) => `Avbestill ved å kontakte oss på ${email} eller ${phone}.`,
+    invoiceNote: 'Gebyret trekkes ikke automatisk. Eventuell faktura sendes separat.',
+  },
   notFound: { title: 'Siden finnes ikke', text: 'Lenken kan være feil, eller siden er flyttet.' },
+  errorPage: {
+    title: 'Noe gikk galt',
+    text: 'Siden kunne ikke vises. Prøv å laste inn på nytt. Hvis feilen fortsetter, kontakt studioet.',
+    reload: 'Last inn på nytt',
+  },
   login: {
     title: 'Logg inn for artister',
     intro: 'Kun for artister og administratorer i studioet.',
@@ -235,20 +252,14 @@ export const nb = {
     signOut: 'Logg ut',
     toDashboard: 'Gå til dashbordet',
   },
-  placeholders: {
-    dashboardTitle: 'Dashbord',
-    dashboardText: 'Artistdashbordet bygges i fase 5.',
-    privacyTitle: 'Personvern',
-    privacyText: 'Personvernerklæring kommer her (plassholder).',
-  },
   units: { hours: 't', minutes: 'min', free: 'Gratis' },
 }
 
 /** Recursively widens literal string types so `en.ts` can supply different text with the same shape. */
 type Widen<T> = T extends string
   ? string
-  : T extends (...args: infer A) => string
-    ? (...args: A) => string
+  : T extends (...args: infer A) => infer R
+    ? (...args: A) => Widen<R>
     : T extends readonly (infer U)[]
       ? Widen<U>[]
       : { [K in keyof T]: Widen<T[K]> }

@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react'
+import { usePageTitle } from '@/hooks/usePageTitle'
 
 export function PageHeader({ title, intro, actions }: { title: string; intro?: ReactNode; actions?: ReactNode }) {
+  usePageTitle(`${title} – Dashbord`)
   return (
     <header className="mb-8 flex flex-wrap items-end justify-between gap-4">
       <div>

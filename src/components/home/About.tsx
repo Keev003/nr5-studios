@@ -12,7 +12,7 @@ export function About() {
           <img src={images.about} alt={t.home.aboutImageAlt} loading="lazy" className="aspect-[4/5] max-h-[560px] w-full rounded-card object-cover" />
           <div className="absolute -bottom-6 -right-2 hidden rounded-card bg-olive px-6 py-5 text-paper shadow-card sm:block lg:-right-8">
             <p className="font-display text-4xl font-light">10+</p>
-            <p className="text-sm text-paper/80">{t.home.yearsExperience}</p>
+            <p className="text-sm text-paper">{t.home.yearsExperience}</p>
           </div>
         </div>
         <div>

@@ -15,6 +15,7 @@ import { useI18n } from '@/i18n/useI18n'
 import { isDemoData } from '@/services/bookingRepository'
 import { saveConfirmation } from '@/services/confirmationStore'
 import type { BookingConfirmation } from '@/types/booking'
+import { usePageTitle } from '@/hooks/usePageTitle'
 
 // The provider lives here (not in App) so the booking code and its validation stay in the lazy-loaded chunk.
 export default function BookingPage() {
@@ -28,6 +29,7 @@ export default function BookingPage() {
 function BookingWizard() {
   const catalog = useBookingCatalog()
   const { t } = useI18n()
+  usePageTitle(t.common.bookTime)
   const booking = useBooking()
   const { draft, customerComplete, selectArtist, reset } = booking
   const [params, setParams] = useSearchParams()

@@ -223,8 +223,9 @@ export async function getStudioSettings(): Promise<StudioSettings> {
   return {
     minimumAge: r.minimum_age,
     minorPolicy: r.minor_policy,
-    cancellationFeeNok: r.cancellation_fee_nok,
     cancellationDeadlineHours: r.cancellation_deadline_hours,
+    lateCancellationHours: r.late_cancellation_hours,
+    lateCancellationPercent: r.late_cancellation_percent,
     policyVersion: r.policy_version,
     slotIntervalMinutes: r.slot_interval_minutes,
     minNoticeHours: r.min_notice_hours,
@@ -240,8 +241,9 @@ export async function saveStudioSettings(s: StudioSettings) {
       .update({
         minimum_age: s.minimumAge,
         minor_policy: s.minorPolicy,
-        cancellation_fee_nok: s.cancellationFeeNok,
         cancellation_deadline_hours: s.cancellationDeadlineHours,
+        late_cancellation_hours: s.lateCancellationHours,
+        late_cancellation_percent: s.lateCancellationPercent,
         policy_version: s.policyVersion,
         slot_interval_minutes: s.slotIntervalMinutes,
         min_notice_hours: s.minNoticeHours,

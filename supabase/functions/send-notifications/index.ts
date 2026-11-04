@@ -59,8 +59,9 @@ export interface BookingDetails {
 }
 
 export interface Settings {
-  cancellationFeeNok: number
   cancellationDeadlineHours: number
+  lateCancellationHours: number
+  lateCancellationPercent: number
   guardianConsentFormUrl: string
 }
 
@@ -177,8 +178,8 @@ export function composeContent(n: Notification, b: BookingDetails, s: Settings, 
       [en ? 'Address' : 'Adresse', `${STUDIO.name}, ${STUDIO.address}`],
     ]
     const terms = en
-      ? `Need to cancel? Please let us know at least ${s.cancellationDeadlineHours} hours before. Late cancellations or no-shows may be invoiced NOK ${s.cancellationFeeNok}.`
-      : `Må du avbestille? Gi beskjed senest ${s.cancellationDeadlineHours} timer før. Ved sen avbestilling eller manglende oppmøte kan du bli fakturert ${s.cancellationFeeNok} kr.`
+      ? `Cancellation: free until ${s.cancellationDeadlineHours} hours before. Between ${s.cancellationDeadlineHours} and ${s.lateCancellationHours} hours before, ${s.lateCancellationPercent}% of the agreed amount is invoiced; less than ${s.lateCancellationHours} hours before or no-show, 100%.`
+      : `Avbestilling: gratis frem til ${s.cancellationDeadlineHours} timer før. Mellom ${s.cancellationDeadlineHours} og ${s.lateCancellationHours} timer før faktureres ${s.lateCancellationPercent} % av avtalt beløp; under ${s.lateCancellationHours} timer før eller ved manglende oppmøte 100 %.`
     const contact = en ? `Questions? Reply to ${STUDIO.email} or call ${STUDIO.phone}.` : `Spørsmål? Kontakt ${STUDIO.email} eller ring ${STUDIO.phone}.`
     const firstName = b.customerName.split(' ')[0]
 
@@ -410,11 +411,12 @@ export async function handler(req: Request): Promise<Response> {
   const ids = [...new Set(queue.map((n) => n.booking_id))]
   const [{ data: bookings }, { data: settingsRow }] = await Promise.all([
     db.from('bookings').select('*, artists(name, profiles(email))').in('id', ids),
-    db.from('studio_settings').select('cancellation_fee_nok, cancellation_deadline_hours, guardian_consent_form_url').single(),
+    db.from('studio_settings').select('cancellation_deadline_hours, late_cancellation_hours, late_cancellation_percent, guardian_consent_form_url').single(),
   ])
   const settings: Settings = {
-    cancellationFeeNok: settingsRow?.cancellation_fee_nok ?? 500,
-    cancellationDeadlineHours: settingsRow?.cancellation_deadline_hours ?? 24,
+    cancellationDeadlineHours: settingsRow?.cancellation_deadline_hours ?? 48,
+    lateCancellationHours: settingsRow?.late_cancellation_hours ?? 24,
+    lateCancellationPercent: settingsRow?.late_cancellation_percent ?? 50,
     guardianConsentFormUrl: settingsRow?.guardian_consent_form_url ?? '/samtykkeskjema-placeholder.pdf',
   }
 

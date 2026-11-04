@@ -5,6 +5,7 @@ import { Alert, Button, ButtonLink, Card, Container, InputField, Spinner } from 
 import { useAuth } from '@/hooks/useAuth'
 import { useI18n } from '@/i18n/useI18n'
 import { isSupabaseConfigured } from '@/lib/supabase'
+import { usePageTitle } from '@/hooks/usePageTitle'
 
 function LoginForm() {
   const { t } = useI18n()
@@ -57,6 +58,7 @@ function LoginForm() {
 
 export default function LoginPage() {
   const { t } = useI18n()
+  usePageTitle(t.login.title)
   return (
     <Container className="max-w-md py-16 sm:py-24">
       <h1 className="text-3xl font-light">{t.login.title}</h1>
